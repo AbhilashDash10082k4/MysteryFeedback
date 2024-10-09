@@ -3,16 +3,16 @@
 
 //all the providers (github, google, etc.) are written in option file in production
 
-import { NextAuthOptions } from "next-auth";
-import UserModel from "@/model/User";
-import bcrypt from "bcryptjs" //to take pwds from user
+import CredentialsProvider from 'next-auth/providers/credentials'; //to use credentials for login
+import { NextAuthOptions } from 'next-auth';
+import UserModel from '@/model/User';
+import bcrypt from 'bcryptjs';  //to take pwds from user
 import dbConnect from "@/lib/dbConnect"; //to takee user from db and signup
-import { CredentialsProvider } from "next-auth/providers/credentials"; //to use credentials for login
 
 
 export const authOptions: NextAuthOptions = {
     //login by using credentials - a complex way for sign up
-    provider: [
+    providers: [
         CredentialsProvider({
             id: "credentials", // The name to display on the sign in form (e.g. "Sign in with...")
             name: "credentials",
@@ -29,8 +29,8 @@ export const authOptions: NextAuthOptions = {
                     //receiveing user
                     const user = await UserModel.findOne({ //find one from UserModel
                         $or: [ //$or is a mongoose operator . Here used for future proof to provide options to signup
-                            { email: credentials.identifier }, //taking email from credentials
-                            { username: credentials.identifier } //method of taking username from credentials
+                            { email: credentials.identifier.email }, //taking email from credentials
+                            { username: credentials.identifier.username } //method of taking username from credentials
                         ]
                     })
 
@@ -46,7 +46,7 @@ export const authOptions: NextAuthOptions = {
                         throw new Error("Wrong password")
                     }
                 } catch (error: any) {
-                    throw new Error(error);
+                    throw new Error(error.message);
                 }
             }
         })
