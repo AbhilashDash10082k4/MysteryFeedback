@@ -7,9 +7,10 @@ export const userNameValidation = z
     .string()
     .min(7, "Min no. of chars should be 7")
     .max(21, "Should not exceed more than 21")
-    .regex(/^[a-zA-Z0-9 ]*$/, "Username should not have any special chars")
+    .regex(/^[a-zA-Z0-9 ]*$/, "Username should not have any special characters")
 
 //exporting signup
+
 //whole UserSchema fields are to be given zod validation
 export const signUpSchema = z.object({
     username: userNameValidation,
