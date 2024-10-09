@@ -73,6 +73,4 @@ const UserSchema : Schema<User> = new Schema ({
 //exporting these data as UserModel
 //in next.js the server is refreshed everytime it is run and it fertches data each time it runs, so whether the data exists in db or not based on that the model is exported
 const UserModel = (mongoose.models.User as mongoose.Model<User>) || (mongoose.model<User>("User", UserSchema))
-export default UserModel; //<User> is typechecking  
-
-
+export default UserModel; //<User> is typechecking
