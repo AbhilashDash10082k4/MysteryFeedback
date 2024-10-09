@@ -8,17 +8,17 @@ declare module 'next-auth' {
     //accessing all modules from 'next-auth' and modifying them
     interface User /*modifying User module in next-auth, adding a field - _id*/{ 
         //optional(?) type string
-        _id?: string, 
-        isVerified?: boolean,
-        isAcceptingMessages?: boolean,
-        username?: string,
+        _id?: string;
+        isVerified?: boolean;
+        isAcceptingMessages?: boolean;
+        username?: string;
     }
     interface Session { //modifying session
        user: {
-        _id?: string, 
-        isVerified?: boolean,
-        isAcceptingMessages?: boolean,
-        username?: string,
+        _id?: string;
+        isVerified?: boolean;
+        isAcceptingMessages?: boolean;
+        username?: string;
        } & DefaultSession['user'];
     }
 }

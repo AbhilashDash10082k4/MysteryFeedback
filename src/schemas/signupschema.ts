@@ -2,6 +2,7 @@
 
 //VALIDATING USERNAME;
 import {z} from 'zod';
+
 export const userNameValidation = z
     .string()
     .min(7, "Min no. of chars should be 7")

@@ -7,7 +7,7 @@ export interface Message extends Document { //this line says that Message is an 
     createdAt: Date,
 }
 
-//schema of message , schema - defined fpor database and interface defines the input type fro frontend
+//schema of message , schema - defined for database and interface defines the input type for frontend
 const MessageSchema: Schema<Message> = new Schema ({ //Schema<Message> => schema should follow interface of message
     content: {
         type: String,
@@ -44,7 +44,7 @@ const UserSchema : Schema<User> = new Schema ({
         type: String,
         required: [true, "Email is required"],
         //verify for valid email = done through regex => tool for text processing fro matching, searching, based on patterns
-        match: [/.+\@.+\..+/, "Use a valid email"], ///.+\@.+\..+/ => simple regex for email validation
+        match: [/.+\@.+\..+/, "Use a valid email"], ///.+\@.+\..+/ => simple regex for email validation, match =>  for testing valid email
         unique: true
     },
     password: {
@@ -72,5 +72,5 @@ const UserSchema : Schema<User> = new Schema ({
 
 //exporting these data as UserModel
 //in next.js the server is refreshed everytime it is run and it fertches data each time it runs, so whether the data exists in db or not based on that the model is exported
-const UserModel = (mongoose.models.User as mongoose.Model<User>) || (mongoose.model<User>("User", UserSchema))
+const UserModel = (mongoose.models.User as mongoose.Model<User>) || (mongoose.model<User>("User", UserSchema)) //1st case 
 export default UserModel; //<User> is typechecking
