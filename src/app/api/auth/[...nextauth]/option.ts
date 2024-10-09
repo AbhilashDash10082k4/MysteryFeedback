@@ -39,7 +39,7 @@ export const authOptions: NextAuthOptions = {
                     }
             
                     //after the user is verified, checking if the pwd from DB and user via i/p is same
-                    const isPasswordCorrect = await /*await for user to write their pwd*/ bcrypt.compare(credentials.password, user.password) //compare returns a boolean value
+                    const isPasswordCorrect = await bcrypt.compare(credentials.password, user.password)  /*await for user to write their pwd*/  //compare returns a boolean value
                     if(isPasswordCorrect) {
                         return user;
                     }else {
