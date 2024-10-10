@@ -1,7 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 //for template of email
-import {Html,Head,Preview,Text,Heading,Row,Section,Font} from '@react-email/components'
-
+import { 
+    Html, 
+    Head, 
+    Preview, 
+    Text, 
+    Heading, 
+    Row, 
+    Section, 
+    Font 
+} from '@react-email/components';
 interface VerificationEmailProps {
     username: string;
     otp: string;
@@ -11,7 +19,7 @@ export default function VerficationEmail({username, otp}: VerificationEmailProps
     <Html lang="en" dir="ltr">
     <Head>
         <title>Verification Email</title>
-        <Preview>your verifcation code {otp}</Preview>
+        <Preview>Here&apos;s your verifcation code: {otp}</Preview>
         <Section>
             <Row>Hello, {username}</Row>
             <Row>
