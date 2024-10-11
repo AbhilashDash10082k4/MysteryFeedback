@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 //signup form route
+//writing API
 
 //these imports are in each route as Nextjs is a edge run (it starts every time it is refreshed)
 import dbConnect from "@/lib/dbConnect";
@@ -10,11 +11,13 @@ import { sendVerificationEmail } from "@/helpers/sendVerificationEmail";
 
 //writing api
 export default async function POST(request: Request) {
+    //await is scompulsory when taking data from Request.json
+
     await dbConnect();
     try {
         //the frontend has 3 fields -> email, username, pwd
         //requesting from user, while taking i/p from user we are checking the same username is existing in DB as verified and if yes then the username is not provided
-        const {username, email, password} = await request.json(); //await coz the db takes time to connect
+        const {username, email, password} = await request.json(); 
 
         //taking User from db which is verified 
         const verifiedUserByUserName = await UserModel.findOne({ //from the UserModel find one item such that ->
@@ -23,7 +26,7 @@ export default async function POST(request: Request) {
         })
         if (verifiedUserByUserName) {
             return Response.json({
-                success: false,
+                success: false, //success for registration is false as username already exists in DB
                 message:"Username already exists"
             },{
                 status: 400,
@@ -41,9 +44,10 @@ export default async function POST(request: Request) {
                     success: false,
                     message: "User already exists by this email",
                 },{status: 500})
-            }else /*if the user exists by this email but is not verified*/ {
-                //taking pwd from user to verify it by sending verification mail
-                const hashedPassword = await bcrypt.hash(password, 10)
+            }else /*if the user does exist by this email, so and it has to be verified*/ {
+                //taking pwd from user to verify it 
+                const hashedPassword = await bcrypt.hash(password, 10) //10 rounds of salting to hash pwd
+
                 //changing the existing pwd to new pwd
                 existingUserByEmail.password = hashedPassword
                 existingUserByEmail.verifyCode = verifyCode
@@ -76,7 +80,7 @@ export default async function POST(request: Request) {
                 isAcceptingMessage: true, //if the user is accepting anonymous message
                 isVerified: false, //by default no one is verified
 
-                message: []// Message documet is initialized as an empty array here in User as the User has just entered the DB
+                message: []// Message document is initialized as an empty array here in User as the User has just entered the DB
             })
             //saving this user in DB
             await newUser.save() //await is given to wait untill the user is created
@@ -98,7 +102,8 @@ export default async function POST(request: Request) {
         return Response.json({
             success: true,
             message: "User registered successfully, Please verify your email", 
-        } ,{status: 400}) 
+        } ,{status: 201}) 
+
     }catch(error) {
         console.error("Error in connecting with DB", error);
         return Response.json({
