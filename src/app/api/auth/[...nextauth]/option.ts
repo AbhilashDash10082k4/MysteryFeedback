@@ -18,30 +18,33 @@ export const authOptions: NextAuthOptions = {
             name: "credentials",
             // `credentials` is used to generate a form on the sign in page.
             // You can specify which fields should be submitted, by adding keys to the `credentials` object.
-            credentials: {
+
+            credentials: { //this will create html forms for sign-in
                 email: { label: "Email", type: "text" },
                 password: { label: "Password", type: "password" }
             },
             async authorize(credentials: any): Promise<any> { //customize authorization for nextauth, takes in credentials as parameter to authorize and returns promise which can be of any type
                 await dbConnect() //to authorize user in DB first connect with the DB
-                try /*error will come while connecting with the DB*/ {
-
+                try {  
                     //receiveing user
                     const user = await UserModel.findOne({ //find one from UserModel
-                        $or: [ //$or is a mongoose operator . Here used for future proof to provide options to signup
-                            { email: credentials.identifier.email }, //taking email from credentials
-                            { username: credentials.identifier.username } //method of taking username from credentials
+                        $or: [ //$or is a mongoose operator . Here used for future proof to provide options to signup, either with username or email
+                            { email: credentials.identifier }, //taking email from credentials
+                            { username: credentials.identifier } //method of taking username from credentials
                         ]
                     })
 
-                    if (!user?.isVerified) { //if user is not verified
-                        throw new Error("Verify your email")
+                    if (!user) { //if user is not verified
+                        throw new Error("No user found with this email");
+                    }
+                    if(!user.isVerified) {
+                        throw new Error(" Verify email");
                     }
             
-                    //after the user is verified, checking if the pwd from DB and user via i/p is same
-                    const isPasswordCorrect = await bcrypt.compare(credentials.password, user.password)  /*await for user to write their pwd*/  //compare returns a boolean value
+                    //after the user is verified, checking if the pwd from DB and from user via i/p is same
+                    const isPasswordCorrect = await bcrypt.compare(credentials.password, user.password) //compare returns a boolean value
                     if(isPasswordCorrect) {
-                        return user;
+                        return user; //this will go to providers and CredentialsProvider
                     }else {
                         throw new Error("Wrong password")
                     }
@@ -75,10 +78,10 @@ export const authOptions: NextAuthOptions = {
         },
     },
     pages: {
-        signIn: "/sign-in",
+        signIn: '/sign-in',
     }, 
     session: {
-        strategy: "jwt",
+        strategy: 'jwt',
     },
-    secret: process.env.NEXTAUTH_SECRET
+    secret: process.env.NEXTAUTH_SECRET 
 }
