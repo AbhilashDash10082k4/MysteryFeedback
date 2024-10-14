@@ -12,7 +12,7 @@ export async function middleware(request: NextRequest) {
     //getting the present url to redirect
     const url = request.nextUrl
 
-    //strategy for redirection based on having token
+    //strategy for redirection based on having token, having token means isVerified = true
     if (token && (url.pathname.startsWith('/sign-in') ||
         url.pathname.startsWith('/sign-up') ||
         url.pathname.startsWith('/verify') ||
@@ -25,6 +25,5 @@ export async function middleware(request: NextRequest) {
 
 //config are the files where we want to run the middlewares
 export const config = {
-    matcher: ['/sign-in', '/sign-up', '/dashboard/:path*', '/', '/verify/:path*'] //matcher is the collection of paths wherewe want to run middlewares, /dashboard/:path* means every path coming in dashboard
-
+    matcher: ['/sign-in', '/sign-up', '/dashboard/:path*', '/', '/verify/:path*'] //matcher is the collection of paths where we want to run middlewares, /dashboard/:path* means every path coming in dashboard
 }
