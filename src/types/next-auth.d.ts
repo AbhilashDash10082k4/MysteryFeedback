@@ -6,8 +6,7 @@ import { DefaultSession } from 'next-auth';
 //declare is a file
 declare module 'next-auth' {
     //accessing all modules from 'next-auth' and modifying them
-    interface User /*modifying User module in next-auth, adding a field - _id*/{ 
-        //optional(?) type string
+    interface User /*modifying User module in next-auth, adding a field - _id*/{
         _id?: string;
         isVerified?: boolean;
         isAcceptingMessages?: boolean;
@@ -19,7 +18,7 @@ declare module 'next-auth' {
         isVerified?: boolean;
         isAcceptingMessages?: boolean;
         username?: string;
-       } & DefaultSession['user'];
+       } & DefaultSession['user']; //user is a key
     }
 }
 //another way of modifying module =>

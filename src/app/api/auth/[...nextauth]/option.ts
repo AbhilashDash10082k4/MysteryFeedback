@@ -12,7 +12,7 @@ import dbConnect from "@/lib/dbConnect"; //to takee user from db and signup
 
 export const authOptions: NextAuthOptions = {
     //login by using credentials - a complex way for sign up
-    providers: [
+    providers: [ // Define the authentication providers (e.g., Google, GitHub).
         CredentialsProvider({
             id: "credentials", // The name to display on the sign in form (e.g. "Sign in with...")
             name: "credentials",
@@ -54,7 +54,7 @@ export const authOptions: NextAuthOptions = {
             }
         })
     ],
-    callbacks: { 
+    callbacks: { //Callbacks: Customize behavior during different authentication events
         //these are strategies and are needed to be customised
         async jwt( {token, user} ) { //this user is the returned user
             //take data from user and inject it to token (customization of token)
