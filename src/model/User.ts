@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import mongoose, {Schema, Document} from "mongoose"; //Document- for type safety used in typescript
 
 export interface Message extends Document { //this line says that Message is an extension of Document which belongs to mongoose, this interface defines custom data type for messages
@@ -8,7 +7,7 @@ export interface Message extends Document { //this line says that Message is an 
 }
 
 //schema of message , schema - defined for database and interface defines the input type for frontend
-const MessageSchema: Schema<Message> = new Schema ({ //Schema<Message> => schema should follow interface of message
+const MessageSchema: Schema<Message> = new Schema ({ //Schema<Message> => schema should follow interface of message,
     content: {
         type: String,
         required: true

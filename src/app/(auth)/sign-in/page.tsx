@@ -1,7 +1,6 @@
-//(auth) dir name == grouping all the routes
 import React from 'react'
 
-const page = () => {
+function page() {
   return (
     <div>
       Page

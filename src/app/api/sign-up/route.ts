@@ -20,17 +20,15 @@ export default async function POST(request: Request) {
         const {username, email, password} = await request.json(); 
 
         //taking User from db which is verified 
-        const verifiedUserByUserName = await UserModel.findOne({ //from the UserModel find one item such that ->
+        const existingUserVerifiedByUserName = await UserModel.findOne({ //from the UserModel find one item such that ->
             username, //access user by username
             isVerified: true //showing if the user is verified, this says that give the username only if the user is verified
         })
-        if (verifiedUserByUserName) {
+        if (existingUserVerifiedByUserName) {
             return Response.json({
                 success: false, //success for registration is false as username already exists in DB
                 message:"Username already exists"
-            },{
-                status: 400,
-            })
+            },{ status: 400 })
         }
         //user by email
         const existingUserByEmail = await UserModel.findOne({email}) //use email to find the user
@@ -59,7 +57,7 @@ export default async function POST(request: Request) {
             //enter password which will be hashed
             const hashedPassword = bcrypt.hash(password, 10) //hash password using 10 salted rounds
             //expiry of otp
-            const expiryDate = new Date(); //new gives a object and object is a reference point in memory so it is mutable
+            const expiryDate = new Date(); //new gives an object and object is a reference point in memory so it is mutable
             expiryDate.setHours(expiryDate.getHours() +1); //setting expiry of otp to 1hr from current time, this will setHours by getting Hour by getHour
 
             //registering this user in the DB
@@ -107,8 +105,9 @@ export default async function POST(request: Request) {
     }catch(error) {
         console.error("Error in connecting with DB", error);
         return Response.json({
+            success: false,
             message:"Error in connecting with DB",
-            success: false
+
         }, {
             status: 500
         })
