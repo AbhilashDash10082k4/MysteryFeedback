@@ -1,6 +1,7 @@
 //Nextjs is edge time server, which means it runs only when user sends request, and when it runs, the db is connected at that time, so if multiple requests are sent it will choke the application. To prevent this we check that if the application is running already then the connected db should be used
 
 import mongoose from "mongoose";
+import { DB_NAME } from "./connect";
 
 type ConnectionObject = { //an object of type ConnectionObject
     isConnected?: number //this means that the data type coming from the connected db is a number 
@@ -14,8 +15,9 @@ async function dbConnect(): Promise<void> { //this function dbConnect connects w
         return;
     }
     try {
-        const db = await mongoose.connect(process.env.MONGODB_URI || "",{});
-        console.log(db);
+        // const db = await mongoose.connect(process.env.MONGODB_URI || "",{});
+        const db = await mongoose.connect(`${process.env.MONGODB_URI}/${DB_NAME}`)
+        console.log(`\MongoDB connected !! DB HOST: ${db.connection.host}`);
         connection.isConnected = db.connections[0].readyState //db.connections = array holding connection with DB, [0] = 1st connection with the DB, readyState= current state of DB connection (connection status),
 
         //db.connections[0].readyState => current state of 1st connection with the DB, current state = number
