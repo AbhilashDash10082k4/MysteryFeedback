@@ -67,13 +67,13 @@ export async function GET(request: Request) {
     }
     const userId = user._id
     try {
-        const foundUserById = await UserModel.findById(user);
+        const foundUserById = await UserModel.findById(user); //query from DB
         if(!foundUserById) {
-            console.log("Failed to...")
+            console.log("Failed to find user")
             return Response.json({
                 success: false,
                 message: "User not found"
-            }, {status: 401});
+            }, {status: 404});
         }
     
         return Response.json({
