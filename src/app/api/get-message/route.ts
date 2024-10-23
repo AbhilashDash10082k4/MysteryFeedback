@@ -38,6 +38,10 @@ export async function GET( request: Request ) {
             message: user[0].messages //return type of aggregate is an user
         }, {status: 200});
     } catch (error) {
-        
+        console.log("Failed to...")
+        return Response.json({
+            success: false,
+            message: "User not found"
+        }, {status: 500});
     }
 }
